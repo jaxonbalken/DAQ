@@ -20,3 +20,5 @@ def read_chan(dev,chan):
 
 read_chan(dev,0)
 pylab auto
+
+print('test')
