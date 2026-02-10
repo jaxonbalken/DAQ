@@ -5,15 +5,26 @@
 from daq import daqDevice
 import daqh
 import os
-
 import daq
 import ctypes as ct
 from ctypes import wintypes as wt
 import numpy as np
 import time
+
+# ============================================
+# CONFIGURATION PARAMETERS - EDIT THESE
+# ============================================
+SAMPLING_FREQUENCY = 10000  # Hz - samples per second
+COLLECTION_TIME = 15        # seconds - how long to collect data
+NUM_CHANNELS = 4            # number of channels to read
+
+# Calculated automatically:
+TOTAL_SAMPLES = SAMPLING_FREQUENCY * COLLECTION_TIME
+# ============================================
+
 jnk=np.zeros([2,3],dtype=float)
 help,jnk
-nseconds=10
+
 def get_date_filename():
     now=time.localtime()[0:6]
     #dirfmt = "c:\\cofe\\ground_data\\testdata\\%4d_%02d_%02d"
@@ -26,10 +37,12 @@ def get_date_filename():
         os.mkdir(dirname)
     return(ffilename)
 
-def get_data(nchan=6,freq=100,nseconds=5,comment='None',alerts=[58,59,60,118,119,120,178,179,180,238,239,240,298,299,300]):
+def get_data(nchan=4,freq=100,nseconds=15,comment='None',alerts=[58,59,60,118,119,120,178,179,180,238,239,240,298,299,300]):
     """
     function to simply aquire nchan a/d channels at rate freq
     for nseconds seconds
+    
+    Total data points collected = nchan * freq * nseconds
     """
     
     #outdata=np.zeros([nchan,nscans],dtype=float)
@@ -72,6 +85,10 @@ def get_data(nchan=6,freq=100,nseconds=5,comment='None',alerts=[58,59,60,118,119
     dev.AdcTransferStart()
     dev.AdcArm()
     
+    print(f"Collecting {nchan} channels at {freq} Hz for {nseconds} seconds...")
+    print(f"Total samples per channel: {nseconds*freq}")
+    print(f"Total data points: {nchan * nseconds * freq}")
+    
     while True:
         
         #alertscopy=alerts[:]
@@ -89,14 +106,13 @@ def get_data(nchan=6,freq=100,nseconds=5,comment='None',alerts=[58,59,60,118,119
     print ("Finished collecting data\n----------------------")
     dev.Close()
     return outdata
-        
-fname = get_date_filename()
-dd=get_data(freq=10000,nseconds=10)
-np.savetxt('tst.csv',dd,delimiter =',')
 
-
-    
-    
-    
-    
-    
+# ============================================
+# RUN DATA COLLECTION
+# ============================================
+if __name__ == "__main__":
+    fname = get_date_filename()
+    dd = get_data(freq=SAMPLING_FREQUENCY, nseconds=COLLECTION_TIME, nchan=NUM_CHANNELS)
+    np.savetxt('tst.csv', dd, delimiter=',')
+    print(f"Data saved to tst.csv")
+    print(f"Data shape: {dd.shape}")
