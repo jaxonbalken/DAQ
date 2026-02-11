@@ -10,6 +10,8 @@ import ctypes as ct
 from ctypes import wintypes as wt
 import numpy as np
 import time
+import tkinter as tk
+from tkinter import filedialog
 
 # ============================================
 # CONFIGURATION PARAMETERS - EDIT THESE
@@ -36,6 +38,52 @@ def get_date_filename():
     if not os.path.exists(dirname):
         os.mkdir(dirname)
     return(ffilename)
+
+def get_datetime_prefix():
+    """Generate a datetime prefix for the filename in format: YYYYMMDD_HHMMSS_"""
+    now = time.localtime()[0:6]
+    return f"{now[0]:04d}{now[1]:02d}{now[2]:02d}_{now[3]:02d}{now[4]:02d}{now[5]:02d}_"
+
+def save_file_dialog(default_name="data.csv"):
+    """
+    Open a file save dialog and return the selected filepath.
+    Automatically prepends date/time to the filename.
+    """
+    # Create a hidden root window
+    root = tk.Tk()
+    root.withdraw()
+    root.attributes('-topmost', True)
+    
+    # Generate datetime prefix
+    datetime_prefix = get_datetime_prefix()
+    
+    # Set up initial file with datetime prefix
+    initial_file = datetime_prefix + default_name
+    
+    # Open the save dialog
+    filepath = filedialog.asksaveasfilename(
+        title="Save Data File",
+        initialfile=initial_file,
+        defaultextension=".csv",
+        filetypes=[
+            ("CSV files", "*.csv"),
+            ("Text files", "*.txt"),
+            ("DAT files", "*.dat"),
+            ("All files", "*.*")
+        ]
+    )
+    
+    root.destroy()
+    
+    if filepath:
+        # If user removed the datetime prefix, add it back
+        directory = os.path.dirname(filepath)
+        filename = os.path.basename(filepath)
+        if not filename.startswith(datetime_prefix):
+            filename = datetime_prefix + filename
+            filepath = os.path.join(directory, filename)
+    
+    return filepath
 
 def get_data(nchan=4,freq=100,nseconds=15,comment='None',alerts=[58,59,60,118,119,120,178,179,180,238,239,240,298,299,300]):
     """
@@ -111,8 +159,16 @@ def get_data(nchan=4,freq=100,nseconds=15,comment='None',alerts=[58,59,60,118,11
 # RUN DATA COLLECTION
 # ============================================
 if __name__ == "__main__":
-    fname = get_date_filename()
+    # Collect the data
     dd = get_data(freq=SAMPLING_FREQUENCY, nseconds=COLLECTION_TIME, nchan=NUM_CHANNELS)
-    np.savetxt('tst.csv', dd, delimiter=',')
-    print(f"Data saved to tst.csv")
-    print(f"Data shape: {dd.shape}")
+    
+    # Open file save dialog
+    filepath = save_file_dialog(default_name="acquisition_data.csv")
+    
+    if filepath:
+        # Save the data
+        np.savetxt(filepath, dd, delimiter=',')
+        print(f"\nData saved to: {filepath}")
+        print(f"Data shape: {dd.shape}")
+    else:
+        print("\nSave cancelled by user. Data not saved.")
