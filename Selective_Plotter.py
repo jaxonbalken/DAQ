@@ -202,7 +202,7 @@ if apply_curve_fit:
             
             # Generate fitted curve for full dataset
             fitted_intensity = sine_wave(x_array, *popt_intensity)
-            plt.plot(x, fitted_intensity, '--', label='Intensity Fit', linewidth=2.5, color='red')
+            #plt.plot(x, fitted_intensity, '--', label='Intensity Fit', linewidth=2.5, color='red')
             
             fit_results['Intensity (V)'] = {
                 'amplitude': popt_intensity[0],
@@ -259,7 +259,7 @@ if apply_curve_fit:
             
             # Generate fitted curve
             fitted_beacon = sine_wave(x_array, *popt_beacon)
-            plt.plot(x, fitted_beacon, '--', label='Beacon X DAC Fit', linewidth=2.5, color='orange')
+            #plt.plot(x, fitted_beacon, '--', label='Beacon X DAC Fit', linewidth=2.5, color='orange')
             
             fit_results['Beacon X DAC (V)'] = {
                 'amplitude': popt_beacon[0],
@@ -316,7 +316,7 @@ if apply_curve_fit:
             
             # Generate fitted curve
             fitted_x_dac = sine_wave(x_array, *popt_x_dac)
-            plt.plot(x, fitted_x_dac, '--', label='X DAC Fit', linewidth=2.5, color='green')
+            #plt.plot(x, fitted_x_dac, '--', label='X DAC Fit', linewidth=2.5, color='green')
             
             fit_results['X DAC (V)'] = {
                 'amplitude': popt_x_dac[0],
@@ -373,7 +373,7 @@ if apply_curve_fit:
             
             # Generate fitted curve
             fitted_y_dac = sine_wave(x_array, *popt_y_dac)
-            plt.plot(x, fitted_y_dac, '--', label='Y DAC Fit', linewidth=2.5, color='purple')
+            #plt.plot(x, fitted_y_dac, '--', label='Y DAC Fit', linewidth=2.5, color='purple')
             
             fit_results['Y DAC (V)'] = {
                 'amplitude': popt_y_dac[0],

@@ -163,7 +163,7 @@ if __name__ == "__main__":
     dd = get_data(freq=SAMPLING_FREQUENCY, nseconds=COLLECTION_TIME, nchan=NUM_CHANNELS)
     
     # Open file save dialog
-    filepath = save_file_dialog(default_name="acquisition_data.csv")
+    filepath = save_file_dialog(default_name="DAQ_data.csv")
     
     if filepath:
         # Save the data
