@@ -401,6 +401,9 @@ plt.tight_layout()
 print(f"\nPlotted {len(selected_columns)} column(s) from: {file_path}")
 print(f"Columns plotted: {', '.join(selected_columns)}")
 
+# Display the plot
+#plt.show(block = False)
+# plt.waitforbuttonpress
 # Display statistics for Intensity column if selected
 if 'Intensity (V)' in selected_columns:
     intensity_data = df['Intensity (V)']
@@ -499,5 +502,80 @@ if apply_curve_fit and fit_results:
         print(f"  Freq Diff:     {abs(freq_x-freq_y):.6f} Hz ({100*abs(freq_x-freq_y)/freq_avg_xy:.2f}%)")
         print("="*50)
 
+
+# bounds = list(map(int, input('SEPARATE NUMBERS BY SPACE' "\n" 'Enter bounds for which to calculate the avgerage of Intensity (V):').split()))
+# print(f'Bounds selected is {bounds}')
+
+# x_start = bounds[0]
+# x_end = bounds[1]
+
+# x_start_ms = x_start * 10
+# x_end_ms = x_end *10
+# print(f'Average of intensity calculated from {x_start}ms to {x_end}ms')
+
+# intensity_data = df['Intensity (V)'].values
+
+# avg = np.average(intensity_data[x_start_ms:x_end_ms+1])
+# print(f'Average intensity: {avg}')
+
+# import numpy as np
+
+def average_intensity(df, x_start, x_end):
+    if x_start > x_end:
+        x_start, x_end = x_end, x_start
+
+    x_start_ms = x_start * 10
+    x_end_ms = x_end * 10
+
+    intensity_data = df['Intensity (V)'].values
+
+    if x_end_ms >= len(intensity_data):
+        print("Bounds exceed data range.")
+        return None
+
+    return np.average(intensity_data[x_start_ms:x_end_ms+1])
+
+
+def average(df):
+    print("Interactive Intensity Averaging")
+    print("Type: start end  (e.g., 10 20)")
+    print("Type 'q' to quit\n")
+
+    while True:
+        user_input = input(">>> ")
+
+        if user_input.lower() in ['q', 'quit', 'exit']:
+            print("Exiting.")
+            break
+
+        try:
+            bounds = list(map(int, user_input.split()))
+            if len(bounds) != 2:
+                print("Please enter exactly two numbers.")
+                continue
+
+            x_start, x_end = bounds
+
+            print(f'Calculating from {x_start}ms to {x_end}ms...')
+
+            avg = average_intensity(df, x_start, x_end)
+
+            if avg is not None:
+                print(f'Average intensity: {avg}\n')
+
+        except ValueError:
+            print("Invalid input. Enter two integers like: 10 20\n")
+
 # Display the plot
+plt.ion() 
 plt.show()
+
+running = True
+while running:
+    plt.pause(0.1)  # 🔑 keeps plot alive
+    running = average(df)
+# print(f'Select the bounds for which to calculate the avgerage of Intensity (V): ')
+# bounds = str(input())
+# x_start = int(bounds[0])
+# x_end = int(bounds[-1])
+# print(f'Average of intensity calculated from {x_start}ms to {x_end}ms')
