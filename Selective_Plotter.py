@@ -572,7 +572,7 @@ plt.show()
 
 running = True
 while running:
-    plt.pause(0.1)  # 🔑 keeps plot alive
+    plt.pause(0.1)  #keeps plot alive
     running = average(df)
 # print(f'Select the bounds for which to calculate the avgerage of Intensity (V): ')
 # bounds = str(input())

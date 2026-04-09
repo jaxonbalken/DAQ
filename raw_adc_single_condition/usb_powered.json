@@ -1,0 +1,29 @@
+{
+  "label": "usb_powered",
+  "full_trace": {
+    "n": 4000,
+    "duration_s": 4.4665368,
+    "sample_rate_hz_est": 895.3245386895726,
+    "mean_adc": 386.99475,
+    "std_adc": 10.679945587264793,
+    "rms_about_mean_adc": 10.67861051061888,
+    "median_adc": 386.0,
+    "mad_adc": 1.0,
+    "min_adc": 383,
+    "max_adc": 792,
+    "pk_pk_adc": 409
+  },
+  "second_half": {
+    "n": 2000,
+    "duration_s": 2.2860992000000007,
+    "sample_rate_hz_est": 874.415248472157,
+    "mean_adc": 386.7055,
+    "std_adc": 1.111029677133665,
+    "rms_about_mean_adc": 1.1107518849860216,
+    "median_adc": 387.0,
+    "mad_adc": 1.0,
+    "min_adc": 384,
+    "max_adc": 390,
+    "pk_pk_adc": 6
+  }
+}

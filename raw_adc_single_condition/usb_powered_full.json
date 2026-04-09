@@ -1,0 +1,17 @@
+{
+  "label": "usb_powered",
+  "segment": "full",
+  "stats": {
+    "n": 4000,
+    "duration_s": 4.466869200000001,
+    "sample_rate_hz_est": 895.257913529234,
+    "mean_adc": 387.87525,
+    "std_adc": 9.30289328076746,
+    "rms_about_mean_adc": 9.301730346419424,
+    "median_adc": 388.0,
+    "mad_adc": 1.0,
+    "min_adc": 384,
+    "max_adc": 738,
+    "pk_pk_adc": 354
+  }
+}
