@@ -17,7 +17,7 @@ from tkinter import filedialog
 # CONFIGURATION PARAMETERS - EDIT THESE
 # ============================================
 SAMPLING_FREQUENCY = 10000  # Hz - samples per second
-COLLECTION_TIME = 60        # seconds - how long to collect data
+COLLECTION_TIME = 10        # seconds - how long to collect data
 NUM_CHANNELS = 5            # number of channels to read
 
 # Calculated automatically:
