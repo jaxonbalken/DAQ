@@ -5,7 +5,7 @@ import numpy as np
 from scipy.fft import fft, fftfreq
 
 # --- Conversion constants ---
-MICRONS_PER_PIXEL = 3.391685
+MICRONS_PER_PIXEL = 3.391685 #0.78125 for setup from 5/19/2026. This includes direct view of a fiber tip, with the full cladding illuminated
 FRAME_RATE = 226.67  # frames per second
 seconds_per_frame = 1 / FRAME_RATE
 
